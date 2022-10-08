@@ -797,12 +797,13 @@ export default class SRPlugin extends Plugin {
                     siblings,
                 };
 
-                // card scheduled
                 if (ignoreStats) {
+                    // Treat this as a new card
                     this.cardStats.newCount++;
                     cardObj.isDue = true;
                     this.deckTree.insertFlashcard([...deckPath], cardObj);
                 } else if (i < scheduling.length) {
+                    // This is a scheduled card
                     const dueUnix: number = window
                         .moment(scheduling[i][1], ["YYYY-MM-DD", "DD-MM-YYYY"])
                         .valueOf();
@@ -846,6 +847,7 @@ export default class SRPlugin extends Plugin {
                         continue;
                     }
                 } else {
+                    // This is a new card
                     this.cardStats.newCount++;
                     if (this.data.buryList.includes(cardTextHash)) {
                         this.deckTree.countFlashcard([...deckPath]);
