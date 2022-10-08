@@ -847,7 +847,7 @@ export default class SRPlugin extends Plugin {
                     }
                 } else {
                     this.cardStats.newCount++;
-                    if (this.data.buryList.includes(cyrb53(cardText))) {
+                    if (this.data.buryList.includes(cardTextHash)) {
                         this.deckTree.countFlashcard([...deckPath]);
                         continue;
                     }
