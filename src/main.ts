@@ -25,6 +25,7 @@ import { ReviewDeck, ReviewDeckSelectionModal } from "src/review-deck";
 import { t } from "src/lang/helpers";
 import { parse } from "src/parser";
 import { appIcon } from "src/icons/appicon";
+import { getCardContext } from "./card-functions";
 
 interface PluginData {
     settings: SRSettings;
@@ -898,26 +899,4 @@ export default class SRPlugin extends Plugin {
             active: true,
         });
     }
-}
-
-function getCardContext(cardLine: number, headings: HeadingCache[]): string {
-    const stack: HeadingCache[] = [];
-    for (const heading of headings) {
-        if (heading.position.start.line > cardLine) {
-            break;
-        }
-
-        while (stack.length > 0 && stack[stack.length - 1].level >= heading.level) {
-            stack.pop();
-        }
-
-        stack.push(heading);
-    }
-
-    let context = "";
-    for (const headingObj of stack) {
-        headingObj.heading = headingObj.heading.replace(/\[\^\d+\]/gm, "").trim();
-        context += headingObj.heading + " > ";
-    }
-    return context.slice(0, -3);
 }
